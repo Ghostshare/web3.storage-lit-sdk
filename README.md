@@ -92,13 +92,27 @@ Note that the fileToEncrypt is the file which we are encrypting in this example,
 
 ```
 async function retrieveFile(cid: string) {
-  const response = await web3StorageLitIntegration.retrieveAndDecryptFile(cid)
-
+  const unencryptedfileBlob = await web3StorageLitIntegration.retrieveAndDecryptFile(cid)
+  saveData(unencryptedfileBlob, "test.txt")
   )
 }
+
+var saveData = (function () {
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  return function (data, fileName) {
+      var blob = new Blob([data], {type: "octet/stream"}),
+          url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(url);
+  };
+}())
 ```
 
-This uses an example streamID and prints the secret value to the console.
+This uses sample code will retrieve the file and trigger the download of that file.
 
 ## EVM Contract Conditions
 
