@@ -1,12 +1,13 @@
 {
   "name": "web3.storage-lit-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An integration of Web3 Storage and Lit Protocol",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Ghostshare/web3.storage-lit-sdk"
   },
+  "source": "src/index.js",
   "main": "dist/index.js",
   "keywords": [
     "lit",
