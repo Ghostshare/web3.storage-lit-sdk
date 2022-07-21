@@ -2,7 +2,6 @@
 import type { DID } from "dids"
 import * as LitHelper from "./lit-helper"
 import { _startLitClient } from "./client"
-// import { storeFiles, storeFilesWithProgress, retrieveFiles } from "./web3.storage-helper"
 import * as Web3StorageHelper from "./web3.storage-helper"
 import { CIDString } from "web3.storage"
 
@@ -22,49 +21,6 @@ export class Integration {
   startLitClient(window: Window) {
     _startLitClient(window);
   }
-
-  // /**
-  //  * Encrypts a file using Lit and then writes using Ceramic
-  //  *
-  //  * @param {File} fileToEncrypt File to encrypt and store on ceramic
-  //  * @param {Array<Object>} accessControlConditions the access control conditions that govern who is able to decrypt this data.  See the docs here for examples: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples
-  //  * @param {string} accessControlConditionType the access control condition type you are using.  Pass `accessControlConditions` for traditional access control conditions.  This is the default if you don't pass anything.  Pass `evmContractConditions` for custom smart contract access control conditions
-  //  * @returns {Promise<string>} A promise that resolves to a streamID for the encrypted data that's been stored
-  //  */
-  // async encryptFileAndStoreWithZip(
-  //   fileToEncrypt: File,
-  //   accessControlConditions: Array<Object>,
-  //   accessControlConditionType: string = "accessControlConditions"
-  // ): Promise<string> {
-  //   if (
-  //     accessControlConditionType !== "accessControlConditions" &&
-  //     accessControlConditionType !== "evmContractConditions"
-  //   ) {
-  //     throw new Error("accessControlConditionType must be accessControlConditions or evmContractConditions")
-  //   }
-  //   try {
-  //     const en = await LitHelper.encryptFileAndZipWithLit(
-  //       fileToEncrypt,
-  //       accessControlConditions,
-  //       this.chain,
-  //       accessControlConditionType
-  //     )
-  //     /*
-  //     return [
-  //       zipBlob,
-  //       encryptedSymmetricKey,
-  //       accessControlConditions,
-  //       chain,
-  //       accessControlConditionType,
-  //     ];
-  //     */
-  //     const file = new File([en[0]], fileToEncrypt.name,{ type: fileToEncrypt.type })
-  //     const wr = await Web3StorageHelper.storeFiles([file])
-  //     return wr
-  //   } catch (error) {
-  //     return `something went wrong encrypting: ${error}`
-  //   }
-  // }
 
   /**
   * Encrypts a file using Lit and stored it in Web3 Storage
