@@ -1,6 +1,6 @@
 {
   "name": "web3.storage-lit-sdk",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An integration of Web3 Storage and Lit Protocol",
   "license": "MIT",
   "repository": {
