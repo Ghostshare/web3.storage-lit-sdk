@@ -7,8 +7,8 @@ DocumentationJS 'works' with Typescript... But not particularly well. As such th
 As such, here are the files that have documentation and the commands that should be run.
 
 `documentation build integration.ts --parse-extension ts -f md -o documentation/integration --shallow`
-`documentation build lit.ts --parse-extension ts -f md -o documentation/lit --shallow`
-`documentation build ceramic.ts --parse-extension ts -f md -o documentation/ceramic --shallow`
+`documentation build lit-helper.ts --parse-extension ts -f md -o documentation/lit-helper --shallow`
+`documentation build web3.storage-helper.ts --parse-extension ts -f md -o documentation/web3.storage-helper --shallow`
 `documentation build client.ts --parse-extension ts -f md -o documentation/client --shallow`
 
 ### But wait, there's more!!!!
