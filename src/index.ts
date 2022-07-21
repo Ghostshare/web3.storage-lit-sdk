@@ -1,5 +1,5 @@
 // test code to start module
 
-import { Integration } from "./integration";
+import { Integration } from "../src/integration";
 
 export { Integration };

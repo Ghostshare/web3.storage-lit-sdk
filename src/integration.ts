@@ -116,9 +116,9 @@ export class Integration {
    * Retrieves a stream and decrypts message then returns to user
    *
    * @param {string} cid the CID of the encrypted data the user wants to access
-   * @returns {Promise<string>} A promise that resolves to the unencrypted string of what was stored
+   * @returns {Promise<Blob>} A promise with the decrypted file Blob
    */
-  async retrieveAndDecryptFile(cid: string): Promise<any> {
+  async retrieveAndDecryptFile(cid: string): Promise<Blob | undefined> {
     try {
       const metadataWeb3Files = await Web3StorageHelper.retrieveFiles(cid)
       if (metadataWeb3Files.length != 1) {
@@ -133,12 +133,12 @@ export class Integration {
       if (encryptedWeb3File.length != 1) {
         throw new Error("Retrieved Web3Storage files are more than one. We expect a single encrypted file")
       }
-      const decrypt = await LitHelper.decryptFile(encryptedWeb3File[0], metadata);
-      return decrypt
+      const decryptedFileBlob = await LitHelper.decryptFile(encryptedWeb3File[0], metadata);
+      return decryptedFileBlob
     } catch (error) {
       console.log('something went wrong decrypting:', error)
       console.log(`CID sent: ${cid}`)
-      return "FALSE"
+      return undefined
     }
   }
 
