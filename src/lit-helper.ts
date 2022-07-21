@@ -34,8 +34,8 @@ export async function decryptFile(
  * @returns {Promise<Object>} A promise containing an object with 2 keys: encryptedFileBlob and symmetricKey. encryptedFileBlob is the encrypted file
  */
  export async function encryptFile(file: File | Blob) {
-  const { encryptedFileBlob, symmetricKey } = await LitJsSdk.encryptFile({file: file})
-  return { encryptedFileBlob, symmetricKey }
+  const { encryptedFile, symmetricKey } = await LitJsSdk.encryptFile({file: file})
+  return { encryptedFileBlob: encryptedFile, symmetricKey }
 }
 
 /**
