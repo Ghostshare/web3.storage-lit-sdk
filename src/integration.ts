@@ -95,7 +95,7 @@ export class Integration {
       const encryptedFile = new File([encryptedFileBlob], fileToEncrypt.name, { type: fileToEncrypt.type })
       const encryptedFileCid = await Web3StorageHelper.storeFiles([encryptedFile])
       // Create metadata file for the encrypted file
-      const encryptedFileMetadata = LitHelper.createEncryptedFileMetadata(
+      const encryptedFileMetadata: LitHelper.EncryptedFileMetadata = await LitHelper.createEncryptedFileMetadata(
         encryptedFile,
         encryptedFileCid,
         symmetricKey,
