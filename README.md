@@ -34,7 +34,9 @@ The goal of this project is to provide a decentralized fully serverless file sha
 
 ## Installation
 
-`yarn add web3.storage-lit-sdk`
+1. `yarn add web3.storage-lit-sdk`
+2. `cp .env.example .env`
+3. Update `WEB3STORAGE_TOKEN=""` env var in `.env` with your Web3.Storage API Token
 
 ## Usage
 
