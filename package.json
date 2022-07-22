@@ -8,6 +8,7 @@
     "url": "https://github.com/Ghostshare/web3.storage-lit-sdk"
   },
   "main": "dist/index.js",
+  "files": ["src/*" ],
   "keywords": [
     "lit",
     "web3.storage",
@@ -15,6 +16,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "prepublish": "yarn build",
     "build:docs": "documentation build src/integration.ts --parse-extension ts -f md -o documentation/integration.md --shallow && documentation build src/lit-helper.ts --parse-extension ts -f md -o documentation/lit-helper.md --shallow && documentation build src/web3.storage-helper.ts --parse-extension ts -f md -o documentation/web3.storage-helper.md --shallow && documentation build src/client.ts --parse-extension ts -f md -o documentation/client.md --shallow && doctoc README.md"
   },
   "dependencies": {
