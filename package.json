@@ -7,7 +7,6 @@
     "type": "git",
     "url": "https://github.com/Ghostshare/web3.storage-lit-sdk"
   },
-  "source": "src/index.js",
   "main": "dist/index.js",
   "keywords": [
     "lit",
