@@ -15,6 +15,7 @@ function getAccessToken(): string {
   // environement variable or other configuration that's kept outside of
   // your code base. For this to work, you need to set the
   // WEB3STORAGE_TOKEN environment variable before you run your code.
+  console.log('WEB3STORAGE_TOKEN: ' + process.env.WEB3STORAGE_TOKEN)
   if (process.env.WEB3STORAGE_TOKEN !== undefined)  {
     return process.env.WEB3STORAGE_TOKEN!
   } else {
