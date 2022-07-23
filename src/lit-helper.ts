@@ -67,6 +67,7 @@ export async function createEncryptedFileMetadata(
   if (authSig == null) {
     throw new Error("Missing lit-auth-signature");
   }
+  authSig = JSON.parse(authSig);
   // Save key to lit network
   const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
     accessControlConditions,
