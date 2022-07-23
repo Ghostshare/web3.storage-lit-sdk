@@ -12,9 +12,14 @@ export async function decryptFile(
   encryptedFile: File,
   metadata: EncryptedFileMetadata,
 ): Promise<Blob> {
-  let authSig = await LitJsSdk.checkAndSignAuthMessage({
-   chain: metadata.chain
-  })
+  // let authSig = await LitJsSdk.checkAndSignAuthMessage({
+  //  chain: metadata.chain
+  // })
+  let authSig = localStorage.getItem("lit-auth-signature");
+  if (authSig == null) {
+    throw new Error("Missing lit-auth-signature");
+  }
+  authSig = JSON.parse(authSig);
   const symmetricKey = await window.litNodeClient.getEncryptionKey({
     accessControlConditions: metadata.accessControlConditions,
     toDecrypt: metadata.encryptedSymmetricKey,
@@ -55,9 +60,13 @@ export async function createEncryptedFileMetadata(
   chain: string
 ): Promise<EncryptedFileMetadata> {
   // Obtain user's authSig
-  let authSig = await LitJsSdk.checkAndSignAuthMessage({
-    chain,
-  })
+  // let authSig = await LitJsSdk.checkAndSignAuthMessage({
+  //   chain,
+  // })
+  let authSig = localStorage.getItem("lit-auth-signature");
+  if (authSig == null) {
+    throw new Error("Missing lit-auth-signature");
+  }
   // Save key to lit network
   const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
     accessControlConditions,
