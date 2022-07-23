@@ -73,24 +73,25 @@ function decryptFile(encryptedFile, metadata) {
         var authSig, symmetricKey, decryptedFileBlob;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, LitJsSdk.checkAndSignAuthMessage({
-                        chain: metadata.chain
-                    })];
-                case 1:
-                    authSig = _a.sent();
+                case 0:
+                    authSig = localStorage.getItem("lit-auth-signature");
+                    if (authSig == null) {
+                        throw new Error("Missing lit-auth-signature");
+                    }
+                    authSig = JSON.parse(authSig);
                     return [4 /*yield*/, window.litNodeClient.getEncryptionKey({
                             accessControlConditions: metadata.accessControlConditions,
                             toDecrypt: metadata.encryptedSymmetricKey,
                             chain: metadata.chain,
                             authSig: authSig
                         })];
-                case 2:
+                case 1:
                     symmetricKey = _a.sent();
                     return [4 /*yield*/, LitJsSdk.decryptFile({
                             symmetricKey: symmetricKey,
                             file: encryptedFile,
                         })];
-                case 3:
+                case 2:
                     decryptedFileBlob = _a.sent();
                     return [2 /*return*/, decryptedFileBlob];
             }
@@ -131,13 +132,11 @@ function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricK
         var authSig, encryptedSymmetricKey, metadata;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, LitJsSdk.checkAndSignAuthMessage({
-                        chain: chain,
-                    })
-                    // Save key to lit network
-                ];
-                case 1:
-                    authSig = _a.sent();
+                case 0:
+                    authSig = localStorage.getItem("lit-auth-signature");
+                    if (authSig == null) {
+                        throw new Error("Missing lit-auth-signature");
+                    }
                     return [4 /*yield*/, window.litNodeClient.saveEncryptionKey({
                             accessControlConditions: accessControlConditions,
                             symmetricKey: symmetricKey,
@@ -146,7 +145,7 @@ function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricK
                         })
                         // create metadata
                     ];
-                case 2:
+                case 1:
                     encryptedSymmetricKey = _a.sent();
                     metadata = metadataForFile(encryptedFileCid, encriptedFile.name, encriptedFile.type, encriptedFile.size, accessControlConditions, [], [], [], chain, encryptedSymmetricKey);
                     return [2 /*return*/, metadata];
