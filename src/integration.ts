@@ -74,7 +74,7 @@ export class Integration {
    * @param {string} cid the CID of the encrypted data the user wants to access
    * @returns {Promise<File>} A promise with the decrypted file Blob
    */
-  async retrieveAndDecryptFile(cid: string): Promise<Blob | undefined> {
+  async retrieveAndDecryptFile(cid: string): Promise<File | undefined> {
     try {
       const metadataWeb3Files = await Web3StorageHelper.retrieveFiles(cid)
       if (metadataWeb3Files.length != 1) {
