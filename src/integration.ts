@@ -42,27 +42,24 @@ export class Integration {
           functionParams: [encryptedFileCid, ":userAddress"],
           functionAbi: {
             name: "hasAccess",
+            constant: true,
             inputs: [
               {
-                internalType: "bytes32",
                 name: "fileId",
                 type: "bytes32"
               },
               {
-                internalType: "address",
                 name: "recipient",
                 type: "address"
               }
             ],
             outputs: [
               {
-                internalType: "bool",
                 name: "_hasAccess",
                 type: "bool"
               }
             ],
             stateMutability: "view",
-            payable: false,
             type: "function"
           },
           chain: this.chain,

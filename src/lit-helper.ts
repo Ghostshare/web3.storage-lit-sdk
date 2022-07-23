@@ -48,7 +48,7 @@ export async function decryptFile(
  * this obfuscates data such that it can be stored on ceramic without
  * non-permissioned eyes seeing what the data is
  * @param {string} fileToEncrypt the file you'd like encrypted
- * @param {Array<Object>} accessControlConditions the access control conditions that govern who is able to decrypt this data.  See the docs here for examples: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples
+ * @param {Array<Object>} evmContractConditions the access control conditions that govern who is able to decrypt this data.  See the docs here for examples: https://developer.litprotocol.com/docs/SDK/accessControlConditionExamples
  * @param {string} chain the chain you'd like to use for checking the access control conditions
  * @returns {Promise<EncryptedFileMetadata>} Encrypted file metadata used to retrieve and decrypt it
  */
@@ -70,7 +70,7 @@ export async function createEncryptedFileMetadata(
   authSig = JSON.parse(authSig);
   // Save key to lit network
   const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
-    accessControlConditions: evmContractConditions,
+    evmContractConditions: evmContractConditions,
     symmetricKey,
     authSig,
     chain,
