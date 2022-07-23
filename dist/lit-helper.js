@@ -80,7 +80,7 @@ function decryptFile(encryptedFile, metadata) {
                     }
                     authSig = JSON.parse(authSig);
                     return [4 /*yield*/, window.litNodeClient.getEncryptionKey({
-                            accessControlConditions: metadata.accessControlConditions,
+                            accessControlConditions: metadata.evmContractConditions,
                             toDecrypt: metadata.encryptedSymmetricKey,
                             chain: metadata.chain,
                             authSig: authSig
