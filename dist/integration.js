@@ -79,51 +79,71 @@ var Integration = /** @class */ (function () {
     */
     Integration.prototype.uploadFile = function (fileToEncrypt) {
         return __awaiter(this, void 0, void 0, function () {
-            var accessControlConditionType, accessControlConditions, _a, encryptedFileBlob, symmetricKey, encryptedFile, encryptedFileCid, encryptedFileMetadata, encryptedFileMetadataFile, encryptedFileMetadataCid, error_1;
+            var _a, encryptedFileBlob, symmetricKey, encryptedFile, encryptedFileCid, evmContractConditions, encryptedFileMetadata, encryptedFileMetadataFile, encryptedFileMetadataCid, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        accessControlConditionType = "accessControlConditions";
-                        accessControlConditions = [
-                            {
-                                contractAddress: '',
-                                standardContractType: '',
-                                chain: this.chain,
-                                method: 'eth_getBalance',
-                                parameters: [':userAddress', 'latest'],
-                                returnValueTest: {
-                                    comparator: '>=',
-                                    value: '000000000000',
-                                },
-                            },
-                        ];
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 6, , 7]);
+                        _b.trys.push([0, 5, , 6]);
                         return [4 /*yield*/, LitHelper.encryptFile(fileToEncrypt)
                             // Store encrypted file in IPFS
                         ];
-                    case 2:
+                    case 1:
                         _a = _b.sent(), encryptedFileBlob = _a.encryptedFileBlob, symmetricKey = _a.symmetricKey;
                         encryptedFile = new File([encryptedFileBlob], fileToEncrypt.name, { type: fileToEncrypt.type });
-                        return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFile])
-                            // Create metadata file for the encrypted file
-                        ];
-                    case 3:
+                        return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFile])];
+                    case 2:
                         encryptedFileCid = _b.sent();
-                        return [4 /*yield*/, LitHelper.createEncryptedFileMetadata(encryptedFile, encryptedFileCid, symmetricKey, accessControlConditions, this.chain)];
-                    case 4:
+                        evmContractConditions = [
+                            {
+                                contractAddress: "0xcd1B4690F317F3108f34074620A59dF86baB871D",
+                                functionName: "hasAccess",
+                                functionParams: [encryptedFileCid, ":userAddress"],
+                                functionAbi: {
+                                    name: "hasAccess",
+                                    inputs: [
+                                        {
+                                            internalType: "bytes32",
+                                            name: "fileId",
+                                            type: "bytes32"
+                                        },
+                                        {
+                                            internalType: "address",
+                                            name: "recipient",
+                                            type: "address"
+                                        }
+                                    ],
+                                    outputs: [
+                                        {
+                                            internalType: "bool",
+                                            name: "_hasAccess",
+                                            type: "bool"
+                                        }
+                                    ],
+                                    stateMutability: "view",
+                                    payable: false,
+                                    type: "function"
+                                },
+                                chain: this.chain,
+                                returnValueTest: {
+                                    key: "_hasAccess",
+                                    comparator: "=",
+                                    value: true,
+                                },
+                            },
+                        ];
+                        return [4 /*yield*/, LitHelper.createEncryptedFileMetadata(encryptedFile, encryptedFileCid, symmetricKey, evmContractConditions, this.chain)];
+                    case 3:
                         encryptedFileMetadata = _b.sent();
                         encryptedFileMetadataFile = new File([JSON.stringify(encryptedFileMetadata)], 'encryptedFileMetadata.json', { type: 'application/json' });
                         return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFileMetadataFile])];
-                    case 5:
+                    case 4:
                         encryptedFileMetadataCid = _b.sent();
                         return [2 /*return*/, encryptedFileMetadataCid];
-                    case 6:
+                    case 5:
                         error_1 = _b.sent();
                         console.log(error_1);
                         return [2 /*return*/, "something went wrong processing file ".concat(fileToEncrypt, ": ").concat(error_1)];
-                    case 7: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
