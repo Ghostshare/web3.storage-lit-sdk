@@ -37,7 +37,7 @@ export class Integration {
       const encryptedFileCid = await Web3StorageHelper.storeFiles([encryptedFile])
       const evmContractConditions = [
         {
-          contractAddress: "0xcd1B4690F317F3108f34074620A59dF86baB871D",
+          contractAddress: "0x9fa4f2c292f5e57ae59d786d1275e1623dada93c",
           functionName: "hasAccess",
           functionParams: [encryptedFileCid, ":userAddress"],
           functionAbi: {
