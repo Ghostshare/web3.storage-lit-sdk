@@ -21,7 +21,7 @@ export async function decryptFile(
   }
   authSig = JSON.parse(authSig);
   const symmetricKey = await window.litNodeClient.getEncryptionKey({
-    accessControlConditions: metadata.accessControlConditions,
+    accessControlConditions: metadata.evmContractConditions,
     toDecrypt: metadata.encryptedSymmetricKey,
     chain: metadata.chain,
     authSig: authSig
