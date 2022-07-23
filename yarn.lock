@@ -4394,9 +4394,9 @@ lit-connect-modal@^0.1.8:
     micromodal "^0.4.10"
 
 lit-js-sdk@^1.1.121:
-  version "1.1.200"
-  resolved "https://registry.yarnpkg.com/lit-js-sdk/-/lit-js-sdk-1.1.200.tgz#ffaba13d65c68c943b40a3f88c872903429b477d"
-  integrity sha512-mFQOIb+ABGAUTiv2HV00LxhkbSKsg0IWwaWHsRiNZO7VuyhDFw8cwguJybA5Rk5d5Er0o+iN5vPz2HgmF7eTPQ==
+  version "1.1.202"
+  resolved "https://registry.yarnpkg.com/lit-js-sdk/-/lit-js-sdk-1.1.202.tgz#b4dbb76230d6f05fcdef291bf57615b5bb099fb1"
+  integrity sha512-ofkIdQ9ZPWmuR21jZMcN5t5g63CBZI3sUSJ5cfqmWIJve4yJHhmRXVgQWtZJqbf2pxkOtq0DbEjdt3BErItqIA==
   dependencies:
     "@ethersproject/bytes" "^5.5.0"
     "@ethersproject/contracts" "^5.2.0"
@@ -7067,9 +7067,9 @@ vinyl@^2.0.0, vinyl@^2.1.0:
     replace-ext "^1.0.0"
 
 vue-template-compiler@^2.6.12:
-  version "2.7.7"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.7.tgz#9ac85dc50216d01fb5e2fb16b6c3f5ed11b4b104"
-  integrity sha512-vxOsjWhvDPyMW7QwXPecNmTNwKyXiF+j4KjBFjDxYPuY0xvqCT5o9WrapVItR/Nrh0XThfBaL19kXFSNYtbKmw==
+  version "2.7.8"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.8.tgz#eadd54ed8fbff55b7deb07093a976c07f451a1dc"
+  integrity sha512-eQqdcUpJKJpBRPDdxCNsqUoT0edNvdt1jFjtVnVS/LPPmr0BU2jWzXlrf6BVMeODtdLewB3j8j3WjNiB+V+giw==
   dependencies:
     de-indent "^1.0.2"
     he "^1.2.0"

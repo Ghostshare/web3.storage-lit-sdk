@@ -8,7 +8,6 @@
     "url": "https://github.com/Ghostshare/web3.storage-lit-sdk"
   },
   "main": "dist/index.js",
-  "files": ["src/*" ],
   "keywords": [
     "lit",
     "web3.storage",
@@ -28,12 +27,12 @@
     "lit-js-sdk": "^1.1.121",
     "multiformats": "~4.6.1",
     "skynet-js": "^4.0.5-beta",
-    "typescript": "^4.5.4",
     "uint8arrays": "^3.0.0",
     "web3.storage": "^4.3.0"
   },
   "devDependencies": {
     "doctoc": "^2.2.0",
-    "documentation": "^13.2.5"
+    "documentation": "^13.2.5",
+    "typescript": "^4.5.4"
   }
 }
