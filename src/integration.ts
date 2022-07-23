@@ -29,33 +29,56 @@ export class Integration {
   * @returns {Promise<CIDString>} A promise that resolves to a CID for the Zip file that contains the encrypted file that's been stored
   */
   async uploadFile(fileToEncrypt: File): Promise<CIDString> {
-    const accessControlConditionType: string = "accessControlConditions"
-    // User must posess at least 0.00000 ETH on eth
-    const accessControlConditions = [
-      {
-        contractAddress: '',
-        standardContractType: '',
-        chain: this.chain,
-        method: 'eth_getBalance',
-        parameters: [':userAddress', 'latest'],
-        returnValueTest: {
-          comparator: '>=',
-          value: '000000000000',
-        },
-      },
-    ]
     try {
       // Encrypt file
       const { encryptedFileBlob, symmetricKey } = await LitHelper.encryptFile(fileToEncrypt)
       // Store encrypted file in IPFS
       const encryptedFile = new File([encryptedFileBlob], fileToEncrypt.name, { type: fileToEncrypt.type })
       const encryptedFileCid = await Web3StorageHelper.storeFiles([encryptedFile])
+      const evmContractConditions = [
+        {
+          contractAddress: "0xcd1B4690F317F3108f34074620A59dF86baB871D",
+          functionName: "hasAccess",
+          functionParams: [encryptedFileCid, ":userAddress"],
+          functionAbi: {
+            name: "hasAccess",
+            inputs: [
+              {
+                internalType: "bytes32",
+                name: "fileId",
+                type: "bytes32"
+              },
+              {
+                internalType: "address",
+                name: "recipient",
+                type: "address"
+              }
+            ],
+            outputs: [
+              {
+                internalType: "bool",
+                name: "_hasAccess",
+                type: "bool"
+              }
+            ],
+            stateMutability: "view",
+            payable: false,
+            type: "function"
+          },
+          chain: this.chain,
+          returnValueTest: {
+            key: "_hasAccess",
+            comparator: "=",
+            value: true,
+          },
+        },
+      ];
       // Create metadata file for the encrypted file
       const encryptedFileMetadata: LitHelper.EncryptedFileMetadata = await LitHelper.createEncryptedFileMetadata(
         encryptedFile,
         encryptedFileCid,
         symmetricKey,
-        accessControlConditions,
+        evmContractConditions,
         this.chain
       )
       const encryptedFileMetadataFile = new File([JSON.stringify(encryptedFileMetadata)], 'encryptedFileMetadata.json',{ type: 'application/json' })

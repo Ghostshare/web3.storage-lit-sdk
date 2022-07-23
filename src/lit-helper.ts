@@ -56,7 +56,7 @@ export async function createEncryptedFileMetadata(
   encriptedFile: File,
   encryptedFileCid: CIDString,
   symmetricKey: Uint8Array,
-  accessControlConditions: Array<Object>,
+  evmContractConditions: Array<Object>,
   chain: string
 ): Promise<EncryptedFileMetadata> {
   // Obtain user's authSig
@@ -70,7 +70,7 @@ export async function createEncryptedFileMetadata(
   authSig = JSON.parse(authSig);
   // Save key to lit network
   const encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
-    accessControlConditions,
+    accessControlConditions: evmContractConditions,
     symmetricKey,
     authSig,
     chain,
@@ -81,8 +81,8 @@ export async function createEncryptedFileMetadata(
     encriptedFile.name,
     encriptedFile.type,
     encriptedFile.size,
-    accessControlConditions,
     [],
+    evmContractConditions,
     [],
     [],
     chain,
