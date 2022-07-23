@@ -127,7 +127,7 @@ exports.encryptFile = encryptFile;
  * @param {string} chain the chain you'd like to use for checking the access control conditions
  * @returns {Promise<EncryptedFileMetadata>} Encrypted file metadata used to retrieve and decrypt it
  */
-function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricKey, accessControlConditions, chain) {
+function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricKey, evmContractConditions, chain) {
     return __awaiter(this, void 0, void 0, function () {
         var authSig, encryptedSymmetricKey, metadata;
         return __generator(this, function (_a) {
@@ -139,7 +139,7 @@ function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricK
                     }
                     authSig = JSON.parse(authSig);
                     return [4 /*yield*/, window.litNodeClient.saveEncryptionKey({
-                            accessControlConditions: accessControlConditions,
+                            accessControlConditions: evmContractConditions,
                             symmetricKey: symmetricKey,
                             authSig: authSig,
                             chain: chain,
@@ -148,7 +148,7 @@ function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricK
                     ];
                 case 1:
                     encryptedSymmetricKey = _a.sent();
-                    metadata = metadataForFile(encryptedFileCid, encriptedFile.name, encriptedFile.type, encriptedFile.size, accessControlConditions, [], [], [], chain, encryptedSymmetricKey);
+                    metadata = metadataForFile(encryptedFileCid, encriptedFile.name, encriptedFile.type, encriptedFile.size, [], evmContractConditions, [], [], chain, encryptedSymmetricKey);
                     return [2 /*return*/, metadata];
             }
         });
