@@ -74,7 +74,7 @@ function decryptFile(encryptedFile, metadata) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    authSig = getAuthSignature();
+                    authSig = localStorage.getItem("lit-auth-signature");
                     if (authSig == null) {
                         throw new Error("Missing lit-auth-signature");
                     }
@@ -99,14 +99,6 @@ function decryptFile(encryptedFile, metadata) {
     });
 }
 exports.decryptFile = decryptFile;
-var getAuthSignature = function () {
-    var authSig = localStorage.getItem("lit-auth-signature");
-    if (authSig != null) {
-        var length_1 = authSig === null || authSig === void 0 ? void 0 : authSig.length;
-        authSig = authSig.slice(1, length_1 - 1);
-    }
-    return authSig;
-};
 /**
  * Encrypt a single file using the Lit
  * @param {File} params.file The file you wish to encrypt
@@ -141,7 +133,7 @@ function createEncryptedFileMetadata(encriptedFile, encryptedFileCid, symmetricK
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    authSig = getAuthSignature();
+                    authSig = localStorage.getItem("lit-auth-signature");
                     if (authSig == null) {
                         throw new Error("Missing lit-auth-signature");
                     }
