@@ -22,6 +22,16 @@ export class Integration {
     _startLitClient(window);
   }
 
+  async hash(data: string) {
+    const utf8 = new TextEncoder().encode(data);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((bytes) => bytes.toString(16).padStart(2, '0'))
+      .join('');
+    return "0x"+hashHex;
+  }
+
   /**
   * Encrypts a file using Lit and stored it in Web3 Storage
   *
@@ -35,11 +45,12 @@ export class Integration {
       // Store encrypted file in IPFS
       const encryptedFile = new File([encryptedFileBlob], fileToEncrypt.name, { type: fileToEncrypt.type })
       const encryptedFileCid = await Web3StorageHelper.storeFiles([encryptedFile])
+      const hashedEncryptedFileCid = await this.hash(encryptedFileCid);
       const evmContractConditions = [
         {
           contractAddress: "0x9fa4f2c292f5e57ae59d786d1275e1623dada93c",
           functionName: "hasAccess",
-          functionParams: [encryptedFileCid, ":userAddress"],
+          functionParams: [hashedEncryptedFileCid, ":userAddress"],
           functionAbi: {
             name: "hasAccess",
             type: "function",
