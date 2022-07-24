@@ -128,4 +128,3 @@ export type EncryptedFileMetadata = {
   chain: string;
   encryptedSymmetricKey:  any;  
 };
- 
