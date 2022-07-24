@@ -167,11 +167,11 @@ var Integration = /** @class */ (function () {
         });
     };
     /**
-   * Retrieves a stream and decrypts message then returns to user
-   *
-   * @param {string} cid the CID of the encrypted data the user wants to access
-   * @returns {Promise<File>} A promise with the decrypted file Blob
-   */
+     * Retrieves a stream and decrypts message then returns to user
+     *
+     * @param {string} cid the CID of the encrypted data the user wants to access
+     * @returns {Promise<File>} A promise with the decrypted file Blob
+     */
     Integration.prototype.retrieveAndDecryptFile = function (cid) {
         return __awaiter(this, void 0, void 0, function () {
             var metadataWeb3Files, metadataWeb3File, metadataString, metadata, encryptedWeb3File, decryptedFileBlob, error_2;
@@ -206,6 +206,45 @@ var Integration = /** @class */ (function () {
                         error_2 = _a.sent();
                         throw new Error("something went wrong decrypting CID: ".concat(cid, ": ").concat(error_2));
                     case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * Retrieves the metadata for a stored file
+     *
+     * @param {string} cid the CID of the metadata for the file the user wants to access
+     * @returns {Promise<FileInfo>} A promise with the FileInfo data
+     */
+    Integration.prototype.retrieveFileMetadata = function (cid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var metadataWeb3Files, metadataWeb3File, metadataString, metadata, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 4, , 5]);
+                        return [4 /*yield*/, Web3StorageHelper.retrieveFiles(cid)];
+                    case 1:
+                        metadataWeb3Files = _a.sent();
+                        if (metadataWeb3Files.length != 1) {
+                            throw new Error("Retrieved Web3Storage files are more than one. We expect a single file for the metadata");
+                        }
+                        return [4 /*yield*/, metadataWeb3Files[0]];
+                    case 2:
+                        metadataWeb3File = _a.sent();
+                        return [4 /*yield*/, metadataWeb3File.text()];
+                    case 3:
+                        metadataString = _a.sent();
+                        metadata = JSON.parse(metadataString);
+                        return [2 /*return*/, {
+                                fileName: metadata.fileName,
+                                fileSize: metadata.fileSize,
+                                fileType: metadata.fileType,
+                            }];
+                    case 4:
+                        error_3 = _a.sent();
+                        throw new Error("something went wrong retrieving metadata with CID: ".concat(cid, ": ").concat(error_3));
+                    case 5: return [2 /*return*/];
                 }
             });
         });

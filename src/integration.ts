@@ -11,6 +11,12 @@ declare global {
   }
 }
 
+export type FileInfo = {
+  fileName: string;
+  fileType: string;
+  fileSize: number;
+}
+
 export class Integration {
   chain: string
 
@@ -98,13 +104,13 @@ export class Integration {
     }
   }
 
-    /**
+  /**
    * Retrieves a stream and decrypts message then returns to user
    *
    * @param {string} cid the CID of the encrypted data the user wants to access
    * @returns {Promise<File>} A promise with the decrypted file Blob
    */
-  async retrieveAndDecryptFile(cid: string): Promise<File | undefined> {
+  async retrieveAndDecryptFile(cid: string): Promise<File> {
     try {
       const metadataWeb3Files = await Web3StorageHelper.retrieveFiles(cid)
       if (metadataWeb3Files.length != 1) {
@@ -125,4 +131,31 @@ export class Integration {
     }
   }
 
+  /**
+   * Retrieves the metadata for a stored file
+   *
+   * @param {string} cid the CID of the metadata for the file the user wants to access
+   * @returns {Promise<FileInfo>} A promise with the FileInfo data
+   */
+    async retrieveFileMetadata(cid: string): Promise<FileInfo> {
+    try {
+      const metadataWeb3Files = await Web3StorageHelper.retrieveFiles(cid)
+      if (metadataWeb3Files.length != 1) {
+        throw new Error("Retrieved Web3Storage files are more than one. We expect a single file for the metadata")
+      }
+      const metadataWeb3File = await metadataWeb3Files[0]
+      const metadataString = await metadataWeb3File.text()
+      const metadata: LitHelper.EncryptedFileMetadata = JSON.parse(metadataString)
+      return {
+        fileName: metadata.fileName,
+        fileSize: metadata.fileSize,
+        fileType: metadata.fileType,
+      } 
+    } catch (error) {
+      throw new Error(`something went wrong retrieving metadata with CID: ${cid}: ${error}`)
+    }
+  }
+
 }
+
+
