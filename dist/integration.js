@@ -237,6 +237,7 @@ var Integration = /** @class */ (function () {
                         metadataString = _a.sent();
                         metadata = JSON.parse(metadataString);
                         return [2 /*return*/, {
+                                fileCid: metadata.fileCid,
                                 fileName: metadata.fileName,
                                 fileSize: metadata.fileSize,
                                 fileType: metadata.fileType,
