@@ -94,8 +94,7 @@ export class Integration {
       const encryptedFileMetadataCid = await Web3StorageHelper.storeFiles([encryptedFileMetadataFile])
       return encryptedFileMetadataCid
     } catch (error) {
-      console.log(error)
-      return `something went wrong processing file ${fileToEncrypt}: ${error}`
+      throw new Error(`something went wrong processing file ${fileToEncrypt}: ${error}`)
     }
   }
 
@@ -122,9 +121,7 @@ export class Integration {
       const decryptedFileBlob = await LitHelper.decryptFile(encryptedWeb3File[0], metadata);
       return new File([decryptedFileBlob], metadata.fileName, { type: metadata.fileType }) 
     } catch (error) {
-      console.log('something went wrong decrypting:', error)
-      console.log(`CID sent: ${cid}`)
-      return undefined
+      throw new Error(`something went wrong decrypting CID: ${cid}: ${error}`)
     }
   }
 

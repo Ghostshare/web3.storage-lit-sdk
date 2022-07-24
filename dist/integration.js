@@ -160,8 +160,7 @@ var Integration = /** @class */ (function () {
                         return [2 /*return*/, encryptedFileMetadataCid];
                     case 6:
                         error_1 = _b.sent();
-                        console.log(error_1);
-                        return [2 /*return*/, "something went wrong processing file ".concat(fileToEncrypt, ": ").concat(error_1)];
+                        throw new Error("something went wrong processing file ".concat(fileToEncrypt, ": ").concat(error_1));
                     case 7: return [2 /*return*/];
                 }
             });
@@ -205,9 +204,7 @@ var Integration = /** @class */ (function () {
                         return [2 /*return*/, new File([decryptedFileBlob], metadata.fileName, { type: metadata.fileType })];
                     case 6:
                         error_2 = _a.sent();
-                        console.log('something went wrong decrypting:', error_2);
-                        console.log("CID sent: ".concat(cid));
-                        return [2 /*return*/, undefined];
+                        throw new Error("something went wrong decrypting CID: ".concat(cid, ": ").concat(error_2));
                     case 7: return [2 /*return*/];
                 }
             });
