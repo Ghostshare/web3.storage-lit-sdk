@@ -15,9 +15,9 @@ export async function decryptFile(
   // let authSig = await LitJsSdk.checkAndSignAuthMessage({
   //  chain: metadata.chain
   // })
-  let authSig = localStorage.getItem("lit-auth-signature");
+  let authSig = getAuthSignature()
   if (authSig == null) {
-    throw new Error("Missing lit-auth-signature");
+    throw new Error("Missing lit-auth-signature")
   }
   authSig = JSON.parse(authSig);
   const symmetricKey = await window.litNodeClient.getEncryptionKey({
@@ -32,6 +32,16 @@ export async function decryptFile(
   })
   return decryptedFileBlob
 }
+
+const getAuthSignature = () => {
+  let authSig = localStorage.getItem("lit-auth-signature")
+  if(authSig != null) {
+    const length = authSig?.length;
+    authSig = authSig.slice(1, length - 1)
+  }
+  return authSig
+};
+
 
 /**
  * Encrypt a single file using the Lit
@@ -63,9 +73,9 @@ export async function createEncryptedFileMetadata(
   // let authSig = await LitJsSdk.checkAndSignAuthMessage({
   //   chain,
   // })
-  let authSig = localStorage.getItem("lit-auth-signature");
+  let authSig = getAuthSignature()
   if (authSig == null) {
-    throw new Error("Missing lit-auth-signature");
+    throw new Error("Missing lit-auth-signature")
   }
   authSig = JSON.parse(authSig);
   // Save key to lit network
