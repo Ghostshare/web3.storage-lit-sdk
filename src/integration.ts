@@ -12,6 +12,7 @@ declare global {
 }
 
 export type FileInfo = {
+  fileCid: string;
   fileName: string;
   fileType: string;
   fileSize: number;
@@ -147,6 +148,7 @@ export class Integration {
       const metadataString = await metadataWeb3File.text()
       const metadata: LitHelper.EncryptedFileMetadata = JSON.parse(metadataString)
       return {
+        fileCid: metadata.fileCid,
         fileName: metadata.fileName,
         fileSize: metadata.fileSize,
         fileType: metadata.fileType,
