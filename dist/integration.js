@@ -71,6 +71,25 @@ var Integration = /** @class */ (function () {
     Integration.prototype.startLitClient = function (window) {
         (0, client_1._startLitClient)(window);
     };
+    Integration.prototype.hash = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var utf8, hashBuffer, hashArray, hashHex;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        utf8 = new TextEncoder().encode(data);
+                        return [4 /*yield*/, crypto.subtle.digest('SHA-256', utf8)];
+                    case 1:
+                        hashBuffer = _a.sent();
+                        hashArray = Array.from(new Uint8Array(hashBuffer));
+                        hashHex = hashArray
+                            .map(function (bytes) { return bytes.toString(16).padStart(2, '0'); })
+                            .join('');
+                        return [2 /*return*/, "0x" + hashHex];
+                }
+            });
+        });
+    };
     /**
     * Encrypts a file using Lit and stored it in Web3 Storage
     *
@@ -79,11 +98,11 @@ var Integration = /** @class */ (function () {
     */
     Integration.prototype.uploadFile = function (fileToEncrypt) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, encryptedFileBlob, symmetricKey, encryptedFile, encryptedFileCid, evmContractConditions, encryptedFileMetadata, encryptedFileMetadataFile, encryptedFileMetadataCid, error_1;
+            var _a, encryptedFileBlob, symmetricKey, encryptedFile, encryptedFileCid, hashedEncryptedFileCid, evmContractConditions, encryptedFileMetadata, encryptedFileMetadataFile, encryptedFileMetadataCid, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 5, , 6]);
+                        _b.trys.push([0, 6, , 7]);
                         return [4 /*yield*/, LitHelper.encryptFile(fileToEncrypt)
                             // Store encrypted file in IPFS
                         ];
@@ -93,11 +112,14 @@ var Integration = /** @class */ (function () {
                         return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFile])];
                     case 2:
                         encryptedFileCid = _b.sent();
+                        return [4 /*yield*/, this.hash(encryptedFileCid)];
+                    case 3:
+                        hashedEncryptedFileCid = _b.sent();
                         evmContractConditions = [
                             {
                                 contractAddress: "0x9fa4f2c292f5e57ae59d786d1275e1623dada93c",
                                 functionName: "hasAccess",
-                                functionParams: [encryptedFileCid, ":userAddress"],
+                                functionParams: [hashedEncryptedFileCid, ":userAddress"],
                                 functionAbi: {
                                     name: "hasAccess",
                                     type: "function",
@@ -129,18 +151,18 @@ var Integration = /** @class */ (function () {
                             },
                         ];
                         return [4 /*yield*/, LitHelper.createEncryptedFileMetadata(encryptedFile, encryptedFileCid, symmetricKey, evmContractConditions, this.chain)];
-                    case 3:
+                    case 4:
                         encryptedFileMetadata = _b.sent();
                         encryptedFileMetadataFile = new File([JSON.stringify(encryptedFileMetadata)], 'encryptedFileMetadata.json', { type: 'application/json' });
                         return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFileMetadataFile])];
-                    case 4:
+                    case 5:
                         encryptedFileMetadataCid = _b.sent();
                         return [2 /*return*/, encryptedFileMetadataCid];
-                    case 5:
+                    case 6:
                         error_1 = _b.sent();
                         console.log(error_1);
                         return [2 /*return*/, "something went wrong processing file ".concat(fileToEncrypt, ": ").concat(error_1)];
-                    case 6: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
