@@ -94,7 +94,7 @@ var Integration = /** @class */ (function () {
     * Encrypts a file using Lit and stored it in Web3 Storage
     *
     * @param {File} fileToEncrypt File to encrypt and store on ceramic
-    * @returns {Promise<CIDString>} A promise that resolves to a CID for the Zip file that contains the encrypted file that's been stored
+    * @returns {Promise<UploadData>} A promise that resolves to a CID for the Zip file that contains the encrypted file that's been stored and the encrypted file CID
     */
     Integration.prototype.uploadFile = function (fileToEncrypt) {
         return __awaiter(this, void 0, void 0, function () {
@@ -157,7 +157,10 @@ var Integration = /** @class */ (function () {
                         return [4 /*yield*/, Web3StorageHelper.storeFiles([encryptedFileMetadataFile])];
                     case 5:
                         encryptedFileMetadataCid = _b.sent();
-                        return [2 /*return*/, encryptedFileMetadataCid];
+                        return [2 /*return*/, {
+                                metadataCid: encryptedFileMetadataCid,
+                                fileCid: encryptedFileCid,
+                            }];
                     case 6:
                         error_1 = _b.sent();
                         throw new Error("something went wrong processing file ".concat(fileToEncrypt, ": ").concat(error_1));

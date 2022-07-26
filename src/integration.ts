@@ -18,6 +18,11 @@ export type FileInfo = {
   fileSize: number;
 }
 
+export type UploadData = {
+  metadataCid: string;
+  fileCid: string;
+}
+
 export class Integration {
   chain: string
 
@@ -43,9 +48,9 @@ export class Integration {
   * Encrypts a file using Lit and stored it in Web3 Storage
   *
   * @param {File} fileToEncrypt File to encrypt and store on ceramic
-  * @returns {Promise<CIDString>} A promise that resolves to a CID for the Zip file that contains the encrypted file that's been stored
+  * @returns {Promise<UploadData>} A promise that resolves to a CID for the Zip file that contains the encrypted file that's been stored and the encrypted file CID
   */
-  async uploadFile(fileToEncrypt: File): Promise<CIDString> {
+  async uploadFile(fileToEncrypt: File): Promise<UploadData> {
     try {
       // Encrypt file
       const { encryptedFileBlob, symmetricKey } = await LitHelper.encryptFile(fileToEncrypt)
@@ -99,7 +104,10 @@ export class Integration {
       const encryptedFileMetadataFile = new File([JSON.stringify(encryptedFileMetadata)], 'encryptedFileMetadata.json',{ type: 'application/json' })
       // Store metadata file in Web3 Storage
       const encryptedFileMetadataCid = await Web3StorageHelper.storeFiles([encryptedFileMetadataFile])
-      return encryptedFileMetadataCid
+      return {
+        metadataCid: encryptedFileMetadataCid,
+        fileCid: encryptedFileCid,
+      }
     } catch (error) {
       throw new Error(`something went wrong processing file ${fileToEncrypt}: ${error}`)
     }
